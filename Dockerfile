@@ -5,9 +5,16 @@ COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Stage 2: Run the Spring Boot application
+## Stage 2: Run the Spring Boot application
 FROM eclipse-temurin:21-jdk-alpine
+VOLUME /tmp
 WORKDIR /app
 COPY --from=builder /app/target/*.jar /app/app.jar
-EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+
+
+#FROM openjdk:17-jdk-alpine
+#VOLUME /tmp
+#COPY target/backend-app.jar app.jar
+#ENTRYPOINT ["java", "-jar", "/app.jar"]
+
